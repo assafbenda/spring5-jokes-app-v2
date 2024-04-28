@@ -1,17 +1,21 @@
 package controllers;
 
-import services.ChuckNorrisQuotes;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import services.ChuckNorrisService;
 
 @Controller
 public class Jokes {
-    private final ChuckNorrisQuotes chuckNorrisQuotes;
+    public final ChuckNorrisService chuckNorrisService;
 
-    public Jokes(ChuckNorrisQuotes chuckNorrisQuotes) {
-        this.chuckNorrisQuotes = chuckNorrisQuotes;
+    public Jokes(ChuckNorrisService chuckNorrisService) {
+        this.chuckNorrisService = chuckNorrisService;
     }
 
-    public String getJoke() {
-        return chuckNorrisQuotes.getJoke();
+    @RequestMapping({"/", ""})
+    public String ShoeJoke(Model model) {
+        model.addAttribute("joke", chuckNorrisService.getJoke());
+        return "index";
     }
 }
